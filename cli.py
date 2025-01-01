@@ -1,5 +1,5 @@
 import getpass
-from client import IMAPClient, MailboxErr, LoginErr
+from src.client import IMAPClient, MailboxErr, LoginErr
 
 if __name__ == "__main__":
     while True:
@@ -9,7 +9,10 @@ if __name__ == "__main__":
 
         client = IMAPClient()
         try:
-            client.connect(server, port if port else 993, use_ssl)
+            if use_ssl:
+                client.connect_ssl(server, port if port else 993)
+            else:
+                client.connect(server, port if port else 993)
             break
         except Exception as e:
             print(f"Ошибка {e}")
